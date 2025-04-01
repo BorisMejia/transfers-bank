@@ -14,4 +14,5 @@ public class TransactionRequestDTO {
     private String accountNum;
     private BigDecimal amount;
     private String type;
+
 }

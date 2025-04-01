@@ -18,14 +18,14 @@ public class AccountService {
     }
 
     public Account AccountBalance(String accountNum){
-        return accountRepository.findByAccount(accountNum)
+        return accountRepository.findByAccountNum(accountNum)
                 .orElseThrow(()-> new AccountNoFound("Acount not found: " + accountNum));
     }
 
     @Transactional
     public void updateBalance(String accountNum, BigDecimal newBalance){
         Account account = AccountBalance(accountNum);
-        account.setBalance(newBalance);
+        account.updateBalance(newBalance);
         accountRepository.save(account);
     }
 

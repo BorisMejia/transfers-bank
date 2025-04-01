@@ -13,13 +13,13 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "accounts")
 @Entity
+@Table(name = "accounts")
 public class Account
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Integer id;
 
     @Column(unique = true, nullable = false)
     private String accountNum;
@@ -45,5 +45,10 @@ public class Account
             throw new InsufficientBalanceException("Saldo insuficiente en la cuenta");
         }
         this.balance = this.balance.subtract(amount);
+    }
+
+    public  void updateBalance(BigDecimal newBalance)
+    {
+        this.balance = newBalance;
     }
 }
