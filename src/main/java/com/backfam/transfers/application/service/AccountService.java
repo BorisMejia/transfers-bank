@@ -4,6 +4,7 @@ import com.backfam.transfers.domain.entity.Account;
 import com.backfam.transfers.domain.exception.AccountNoFound;
 import com.backfam.transfers.domain.repository.AccountRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
