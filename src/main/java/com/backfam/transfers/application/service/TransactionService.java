@@ -5,7 +5,7 @@ import com.backfam.transfers.application.event.EventPublisher;
 import com.backfam.transfers.domain.entity.Account;
 import com.backfam.transfers.domain.entity.Transaction;
 import com.backfam.transfers.domain.event.TransactionCreateEvent;
-import com.backfam.transfers.domain.exception.AccountNoFound;
+import com.backfam.transfers.domain.exception.AccountException;
 import com.backfam.transfers.domain.repository.AccountRepository;
 import com.backfam.transfers.domain.repository.TransactionRepository;
 import jakarta.transaction.Transactional;
@@ -26,7 +26,7 @@ public class TransactionService {
     @Transactional
     public TransactionResponseDTO performTransaction(TransactionRequestDTO request){
         Account account = accountRepository.findByAccountNum(request.getAccountNum())
-                .orElseThrow(() -> new AccountNoFound("Account no found"));
+                .orElseThrow(() -> new AccountException("Account no found"));
 
         if (request.getType().equalsIgnoreCase("RETIRO")){
             account.cashOut(request.getAmount());

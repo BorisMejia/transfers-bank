@@ -4,10 +4,9 @@ import com.backfam.transfers.application.dto.AccountDTO;
 import com.backfam.transfers.application.event.EventPublisher;
 import com.backfam.transfers.domain.entity.Account;
 import com.backfam.transfers.domain.event.AccountCreateEvent;
-import com.backfam.transfers.domain.exception.AccountNoFound;
+import com.backfam.transfers.domain.exception.AccountException;
 import com.backfam.transfers.domain.repository.AccountRepository;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -25,7 +24,7 @@ public class AccountService {
 
     public AccountDTO getBalance(String accountNum){
         Account account = accountRepository.findByAccountNum(accountNum)
-                .orElseThrow(()-> new AccountNoFound("Account not found: " + accountNum));
+                .orElseThrow(()-> new AccountException(accountNum));
         return new AccountDTO(account.getId(),account.getAccountNum(),account.getName(),account.getBalance());
     }
 
@@ -48,7 +47,7 @@ public class AccountService {
     @Transactional
     public void updateBalance(String accountNum, BigDecimal newBalance){
         Account account = accountRepository.findByAccountNum(accountNum)
-                .orElseThrow(()-> new RuntimeException("Account not found: " + accountNum));
+                .orElseThrow(()-> new AccountException(accountNum));
         account.updateBalance(newBalance);
         accountRepository.save(account);
     }
