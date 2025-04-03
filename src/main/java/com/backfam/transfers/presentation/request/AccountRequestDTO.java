@@ -1,4 +1,15 @@
 package com.backfam.transfers.presentation.request;
 
-public class CreateAccountRequest {
+import lombok.Data;
+
+import java.math.BigDecimal;
+
+@Data
+public class AccountRequestDTO {
+
+    private String accountNum;
+
+    private String name;
+
+    private BigDecimal balance;
 }

@@ -48,10 +48,16 @@ public class TransactionService {
                 account.getAccountNum(),
                 request.getAmount(),
                 request.getType(),
-                LocalDateTime.now()
+                transaction.getMovementDate()
         );
-        eventPublisher.publicEvent(event);
+        eventPublisher.publishEvent(event);
 
-        return new TransactionResponseDTO(account.getAccountNum(), account.getBalance(), request.getType());
+        return new TransactionResponseDTO(
+                transaction.getId(),
+                account.getAccountNum(),
+                transaction.getAmount(),
+                transaction.getType(),
+                transaction.getMovementDate()
+        );
     }
 }
