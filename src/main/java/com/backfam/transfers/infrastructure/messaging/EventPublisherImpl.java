@@ -16,7 +16,7 @@ public class EventPublisherImpl implements EventPublisher {
     }
 
     @Override
-    public void Event(Object event){
+    public <T> void publishEvent(T event){
         String exchange = "";
         String routingKey = "";
 
