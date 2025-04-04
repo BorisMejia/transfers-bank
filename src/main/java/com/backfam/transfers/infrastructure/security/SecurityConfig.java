@@ -36,7 +36,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/accounts/**", "/api/transaction/**").permitAll() // Permitir solo estas rutas sin auth
+                        .requestMatchers("/accounts/**", "/api/transaction/**", "/api/transfer/**").permitAll() // Permitir solo estas rutas sin auth
                         .anyRequest().authenticated() // Todas las demás requieren autenticación
                 );
 

@@ -1,6 +1,6 @@
 package com.backfam.transfers.application.service;
 
-import com.backfam.transfers.application.dto.TransactionRequestDTO;
+import com.backfam.transfers.application.dto.request.TransactionRequestDTO;
 import com.backfam.transfers.application.event.EventPublisher;
 import com.backfam.transfers.domain.entity.Account;
 import com.backfam.transfers.domain.entity.Transaction;
@@ -11,7 +11,7 @@ import com.backfam.transfers.domain.repository.TransactionRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import com.backfam.transfers.application.dto.TransactionResponseDTO;
+import com.backfam.transfers.application.dto.response.TransactionResponseDTO;
 
 import java.time.LocalDateTime;
 

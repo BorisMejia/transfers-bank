@@ -1,4 +1,4 @@
-package com.backfam.transfers.application.dto.requestDTO;
+package com.backfam.transfers.application.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

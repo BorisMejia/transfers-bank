@@ -7,7 +7,8 @@ public enum Messages {
 
     DEPOSIT_AMOUNT_POSITIVE("El monto a depositar debe ser positivo."),
     CASH_OUT_AMOUNT_POSITIVE("El monto a retirar debe ser positivo."),
-    INSUFFICIENT_BALANCE("Saldo insuficiente en la cuenta.");
+    INSUFFICIENT_BALANCE("Saldo insuficiente en la cuenta."),
+    TRANSFER_AMOUNT_POSITIVE("El monto a transferir debe ser positivo");
 
     private final String message;
 
