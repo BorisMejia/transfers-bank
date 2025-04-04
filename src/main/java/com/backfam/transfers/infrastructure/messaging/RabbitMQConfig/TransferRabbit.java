@@ -9,17 +9,17 @@ import org.springframework.context.annotation.Bean;
 public class TransferRabbit {
 
     @Bean
-    public Queue transactionQueue(){
+    public Queue transferQueue(){
         return new Queue("q.back.transfer", true);
     }
 
     @Bean
-    public DirectExchange transactionExchange(){
-        return new DirectExchange("e.back.transfer\n");
+    public DirectExchange transferExchange(){
+        return new DirectExchange("e.back.transfer");
     }
 
     @Bean
-    public Binding binding(Queue transactionQueue, DirectExchange transactionExchange) {
-        return BindingBuilder.bind(transactionQueue).to(transactionExchange).with("transferRoutingKey");
+    public Binding binding(Queue transferQueue, DirectExchange transferExchange) {
+        return BindingBuilder.bind(transferQueue).to(transferExchange).with("transferRoutingKey");
     }
 }
