@@ -1,0 +1,44 @@
+services:
+
+  app:
+    build: .
+    container_name: app-transfers
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - rabbitmq
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:sqlserver://db:1433;databaseName=bankFam;encrypt=true;trustServerCertificate=true
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD: transferBank
+      SPRING_RABBITMQ_HOST: rabbitmq
+    networks:
+      - app-network
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: transferBank-db
+    hostname: sql1
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: transferBank
+    ports:
+      - "1433:1433"
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: cyrilix/rabbitmq-mqtt
+    container_name: rabbitmq_test
+    ports:
+      - "1883:1883"
+      - "5672:5672"
+      - "5671:5671"
+      - "15672:15672"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
