@@ -10,7 +10,7 @@ public class TransactionRabbit {
 
     @Bean
     public Queue transactionQueue(){
-        return new Queue("q.back.transfer", true);
+        return new Queue("q.back.transaction", true);
     }
 
     @Bean

@@ -20,12 +20,8 @@ public class TransferController {
     }
 
     @PostMapping
-    public ResponseEntity<String> makeTransfer(@RequestBody TransferRequestDTO request) {
-        transferService.transfer(new TransferDTO(
-                request.getFromAccount(),
-                request.getToAccount(),
-                request.getAmount()
-        ));
+    public ResponseEntity<String> transfer(@RequestBody TransferDTO request) {
+        transferService.transfer(request);
         return ResponseEntity.ok("Transferencia realizada con éxito.");
     }
 }

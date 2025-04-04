@@ -34,4 +34,13 @@ public class Transaction {
     @Column(nullable = false)
     private LocalDateTime movementDate;
 
+    private Transaction(Account account, BigDecimal amount, String type){
+        this.account = account;
+        this.amount = amount;
+        this.type = type;
+        this.movementDate = LocalDateTime.now();
+    }
+    public static Transaction createMovement(Account account, BigDecimal amount, String type){
+        return new Transaction(account, amount, type);
+    }
 }
