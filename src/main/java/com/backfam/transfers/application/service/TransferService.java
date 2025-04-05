@@ -7,6 +7,7 @@ import com.backfam.transfers.domain.entity.Transaction;
 import com.backfam.transfers.domain.entity.Transfer;
 import com.backfam.transfers.domain.event.TransferCreateEvent;
 import com.backfam.transfers.domain.exception.AccountException;
+import com.backfam.transfers.domain.exception.Messages;
 import com.backfam.transfers.domain.repository.AccountRepository;
 import com.backfam.transfers.domain.repository.TransactionRepository;
 import com.backfam.transfers.domain.repository.TransferRepository;
@@ -32,22 +33,27 @@ public class TransferService {
 
     @Transactional
     public void transfer(TransferDTO transferDTO) {
-        Account from = accountRepository.findByAccountNum(transferDTO.getFromAccount())
-                .orElseThrow(() -> new AccountException(transferDTO.getFromAccount()));
-        Account to = accountRepository.findByAccountNum(transferDTO.getToAccount())
-                .orElseThrow(() -> new AccountException(transferDTO.getToAccount()));
+        if (transferDTO.getFromAccount().equals(transferDTO.getToAccount())){
+            throw new IllegalArgumentException(Messages.TRANSFER_ACCOUNT_ERROR.getMessage());
+        }else {
+            Account from = accountRepository.findByAccountNum(transferDTO.getFromAccount())
+                    .orElseThrow(() -> new AccountException(transferDTO.getFromAccount()));
+            Account to = accountRepository.findByAccountNum(transferDTO.getToAccount())
+                    .orElseThrow(() -> new AccountException(transferDTO.getToAccount()));
 
-        from.cashOut(transferDTO.getAmount());
-        to.deposit(transferDTO.getAmount());
+            from.cashOut(transferDTO.getAmount());
+            to.deposit(transferDTO.getAmount());
 
-        accountRepository.save(from);
-        accountRepository.save(to);
+            accountRepository.save(from);
+            accountRepository.save(to);
 
-        transactionRepository.save(Transaction.createMovement(from, transferDTO.getAmount().negate(), "TRANSFER_OUT"));
-        transactionRepository.save(Transaction.createMovement(to, transferDTO.getAmount(),"TRANSFER_IN"));
+            transactionRepository.save(Transaction.createMovement(from, transferDTO.getAmount().negate(), "TRANSFER_OUT"));
+            transactionRepository.save(Transaction.createMovement(to, transferDTO.getAmount(), "TRANSFER_IN"));
 
-        transferRepository.save(new Transfer(from, to, transferDTO.getAmount()));
+            transferRepository.save(new Transfer(from, to, transferDTO.getAmount()));
 
-        eventPublisher.publishEvent(new TransferCreateEvent(from.getAccountNum(), to.getAccountNum(), transferDTO.getAmount(), LocalDateTime.now()));
+            eventPublisher.publishEvent(new TransferCreateEvent(from.getAccountNum(), to.getAccountNum(), transferDTO.getAmount(), LocalDateTime.now()));
+        }
     }
+
 }

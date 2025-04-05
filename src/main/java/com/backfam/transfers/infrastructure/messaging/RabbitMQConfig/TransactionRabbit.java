@@ -15,7 +15,7 @@ public class TransactionRabbit {
 
     @Bean
     public DirectExchange transactionExchange(){
-        return new DirectExchange("bank.transaction");
+        return new DirectExchange("e.bank.transaction");
     }
 
     @Bean
