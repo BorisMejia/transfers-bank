@@ -1,8 +1,10 @@
 package com.backfam.transfers.presentation.controller;
 
 import com.backfam.transfers.application.service.TransactionService;
+import com.backfam.transfers.presentation.controller.exception.ErrorResponse;
 import com.backfam.transfers.presentation.request.TransactionRequestDTO;
 import com.backfam.transfers.presentation.response.TransactionResponseDTO;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +19,7 @@ public class TransactionController {
     }
 
     @PostMapping
-    public ResponseEntity<TransactionResponseDTO> performTransaction(@RequestBody TransactionRequestDTO request) {
+    public ResponseEntity<?> performTransaction(@RequestBody TransactionRequestDTO request) {
         // Llamar al servicio con el DTO de aplicación
         var transactionDTO = transactionService.performTransaction(
                 new com.backfam.transfers.application.dto.request.TransactionRequestDTO(
@@ -26,16 +28,22 @@ public class TransactionController {
                         request.getType()
                 )
         );
-
         // Convertir la respuesta de aplicación a presentación
-        var response = new TransactionResponseDTO(
-                transactionDTO.getId(),
-                transactionDTO.getAccountNum(),
-                transactionDTO.getAmount(),
-                transactionDTO.getType(),
-                transactionDTO.getMovementDate()
-        );
-
-        return ResponseEntity.ok(response);
+        try {
+            var response = new TransactionResponseDTO(
+                    transactionDTO.getId(),
+                    transactionDTO.getAccountNum(),
+                    transactionDTO.getAmount(),
+                    transactionDTO.getType(),
+                    transactionDTO.getMovementDate()
+            );
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(response);
+        }catch (Exception e){
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Messages.TRANSACTION_ERROR);
+        }
     }
 }

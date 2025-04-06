@@ -33,15 +33,4 @@ public class EventPublisherImpl implements EventPublisher {
         }
         rabbitTemplate.convertAndSend(exchange, routingKey, event);
     }
-/*
-    @Override
-    public void publicEvent(TransactionCreateEvent event){
-        rabbitTemplate.convertAndSend("bank.transaction", "transactionRoutingKey", event);
-    }
-
-    @Override
-    public void accountEvent(AccountCreateEvent eventCreate){
-        rabbitTemplate.convertAndSend("q.back.accountCreate","accountRoutingKey", eventCreate);
-    }
-    */
 }

@@ -2,7 +2,7 @@ package com.backfam.transfers.presentation.controller;
 
 import com.backfam.transfers.application.dto.TransferDTO;
 import com.backfam.transfers.application.service.TransferService;
-import com.backfam.transfers.presentation.request.TransferRequestDTO;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +21,15 @@ public class TransferController {
 
     @PostMapping
     public ResponseEntity<String> transfer(@RequestBody TransferDTO request) {
-        transferService.transfer(request);
-        return ResponseEntity.ok("Transferencia realizada con éxito.");
+        try{
+            transferService.transfer(request);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(Messages.TRANSFER_SUCCESS.getMessage());
+        }catch (Exception e){
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Messages.TRANSFER_ERROR.getMessage());
+        }
     }
 }

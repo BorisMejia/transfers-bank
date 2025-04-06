@@ -23,6 +23,7 @@ public class AccountService {
     }
 
     public AccountDTO getBalance(String accountNum){
+        System.out.println(">>> Buscando cuenta con número: " + accountNum);
         Account account = accountRepository.findByAccountNum(accountNum)
                 .orElseThrow(()-> new AccountException(accountNum));
         return new AccountDTO(account.getId(),account.getAccountNum(),account.getName(),account.getBalance());

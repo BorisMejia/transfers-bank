@@ -26,7 +26,7 @@ public class TransactionService {
     @Transactional
     public TransactionResponseDTO performTransaction(TransactionRequestDTO request){
         Account account = accountRepository.findByAccountNum(request.getAccountNum())
-                .orElseThrow(() -> new AccountException("Account no found"));
+                .orElseThrow(() -> new AccountException(request.getAccountNum()));
 
         if (request.getType().equalsIgnoreCase("RETIRO")){
             account.cashOut(request.getAmount());
