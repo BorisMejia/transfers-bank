@@ -2,14 +2,12 @@ package com.backfam.transfers.presentation.controller;
 
 import com.backfam.transfers.application.dto.AccountDTO;
 import com.backfam.transfers.application.service.AccountService;
-import com.backfam.transfers.presentation.request.AccountRequestDTO;
+import com.backfam.transfers.presentation.controller.exception.Messages;
 import com.backfam.transfers.presentation.response.AccountResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/accounts")

@@ -1,4 +1,4 @@
-package com.backfam.transfers.presentation.controller;
+package com.backfam.transfers.presentation.controller.exception;
 
 import lombok.Getter;
 

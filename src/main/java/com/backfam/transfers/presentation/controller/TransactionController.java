@@ -1,7 +1,7 @@
 package com.backfam.transfers.presentation.controller;
 
 import com.backfam.transfers.application.service.TransactionService;
-import com.backfam.transfers.presentation.controller.exception.ErrorResponse;
+import com.backfam.transfers.presentation.controller.exception.Messages;
 import com.backfam.transfers.presentation.request.TransactionRequestDTO;
 import com.backfam.transfers.presentation.response.TransactionResponseDTO;
 import org.springframework.http.HttpStatus;
