@@ -5,6 +5,7 @@ import com.backfam.transfers.application.event.EventPublisher;
 import com.backfam.transfers.domain.entity.Account;
 import com.backfam.transfers.domain.event.AccountCreateEvent;
 import com.backfam.transfers.domain.exception.AccountException;
+import com.backfam.transfers.application.exception.Messages;
 import com.backfam.transfers.domain.repository.AccountRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -22,26 +23,30 @@ public class AccountService {
         this.eventPublisher = eventPublisher;
     }
 
-    public AccountDTO getBalance(String accountNum){
-        System.out.println(">>> Buscando cuenta con número: " + accountNum);
-        Account account = accountRepository.findByAccountNum(accountNum)
-                .orElseThrow(()-> new AccountException(accountNum));
-        return new AccountDTO(account.getId(),account.getAccountNum(),account.getName(),account.getBalance());
+    public AccountDTO getBalance(String accountNum)throws Exception{
+        try {
+            Account account = accountRepository.findByAccountNum(accountNum)
+                    .orElseThrow(()-> new AccountException(accountNum));
+            return new AccountDTO(account.getId(),account.getAccountNum(),account.getName(),account.getBalance());
+        }catch (Exception e){
+            throw new Exception(Messages.ERROR_GET_ACCOUNT.getMessage());
+        }
     }
-
     @Transactional
-    public AccountDTO createAccount(AccountDTO accountDTO){
-        Account newAccount = accountRepository.save(accountDTO.toEntity());
-
-        AccountCreateEvent event = new AccountCreateEvent(
-                newAccount.getId(),
-                newAccount.getAccountNum(),
-                newAccount.getName(),
-                newAccount.getBalance()
-        );
-        eventPublisher.publishEvent(event);
-
-        return new AccountDTO(newAccount.getId(), newAccount.getAccountNum(), newAccount.getName(), newAccount.getBalance());
+    public AccountDTO createAccount(AccountDTO accountDTO) throws Exception{
+        try {
+            Account newAccount = accountRepository.save(accountDTO.toEntity());
+            AccountCreateEvent event = new AccountCreateEvent(
+                    newAccount.getId(),
+                    newAccount.getAccountNum(),
+                    newAccount.getName(),
+                    newAccount.getBalance()
+            );
+            eventPublisher.publishEvent(event);
+            return new AccountDTO(newAccount.getId(), newAccount.getAccountNum(), newAccount.getName(), newAccount.getBalance());
+        }catch (Exception e){
+            throw new Exception(Messages.ERROR_CREATE_ACCOUNT.getMessage());
+        }
 
     }
 

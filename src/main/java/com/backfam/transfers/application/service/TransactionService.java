@@ -2,6 +2,7 @@ package com.backfam.transfers.application.service;
 
 import com.backfam.transfers.application.dto.request.TransactionRequestDTO;
 import com.backfam.transfers.application.event.EventPublisher;
+import com.backfam.transfers.application.exception.Messages;
 import com.backfam.transfers.domain.entity.Account;
 import com.backfam.transfers.domain.entity.Transaction;
 import com.backfam.transfers.domain.event.TransactionCreateEvent;
@@ -24,40 +25,42 @@ public class TransactionService {
     private final EventPublisher eventPublisher;
 
     @Transactional
-    public TransactionResponseDTO performTransaction(TransactionRequestDTO request){
-        Account account = accountRepository.findByAccountNum(request.getAccountNum())
-                .orElseThrow(() -> new AccountException(request.getAccountNum()));
+    public TransactionResponseDTO performTransaction(TransactionRequestDTO request) throws Exception {
+        try {
+            Account account = accountRepository.findByAccountNum(request.getAccountNum())
+                    .orElseThrow(() -> new AccountException(request.getAccountNum()));
+            if (request.getType().equalsIgnoreCase("RETIRO")) {
+                account.cashOut(request.getAmount());
+            } else if (request.getType().equalsIgnoreCase("DEPOSITO")) {
+                account.deposit(request.getAmount());
+            }
+            Transaction transaction = Transaction.builder()
+                    .account(account)
+                    .amount(request.getAmount())
+                    .type(request.getType().toUpperCase())
+                    .movementDate(LocalDateTime.now())
+                    .build();
+            transactionRepository.save(transaction);
+            accountRepository.save(account);
 
-        if (request.getType().equalsIgnoreCase("RETIRO")){
-            account.cashOut(request.getAmount());
-        } else if (request.getType().equalsIgnoreCase("DEPOSITO")) {
-            account.deposit(request.getAmount());
+            TransactionCreateEvent event = new TransactionCreateEvent(
+                    account.getAccountNum(),
+                    request.getAmount(),
+                    request.getType(),
+                    transaction.getMovementDate()
+            );
+            eventPublisher.publishEvent(event);
+
+            return new TransactionResponseDTO(
+                    transaction.getId(),
+                    account.getAccountNum(),
+                    transaction.getAmount(),
+                    transaction.getType(),
+                    transaction.getMovementDate()
+            );
+
+        } catch (Exception e) {
+            throw new Exception(Messages.PERFORM_TRANSACTION_ERROR.getMessage());
         }
-
-        Transaction transaction = Transaction.builder()
-                .account(account)
-                .amount(request.getAmount())
-                .type(request.getType().toUpperCase())
-                .movementDate(LocalDateTime.now())
-                .build();
-
-        transactionRepository.save(transaction);
-        accountRepository.save(account);
-
-        TransactionCreateEvent event = new TransactionCreateEvent(
-                account.getAccountNum(),
-                request.getAmount(),
-                request.getType(),
-                transaction.getMovementDate()
-        );
-        eventPublisher.publishEvent(event);
-
-        return new TransactionResponseDTO(
-                transaction.getId(),
-                account.getAccountNum(),
-                transaction.getAmount(),
-                transaction.getType(),
-                transaction.getMovementDate()
-        );
     }
 }

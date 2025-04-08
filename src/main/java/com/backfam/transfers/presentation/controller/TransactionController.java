@@ -19,7 +19,7 @@ public class TransactionController {
     }
 
     @PostMapping
-    public ResponseEntity<?> performTransaction(@RequestBody TransactionRequestDTO request) {
+    public ResponseEntity<?> performTransaction(@RequestBody TransactionRequestDTO request) throws Exception {
         // Llamar al servicio con el DTO de aplicación
         var transactionDTO = transactionService.performTransaction(
                 new com.backfam.transfers.application.dto.request.TransactionRequestDTO(
