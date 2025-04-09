@@ -7,6 +7,7 @@ import com.backfam.transfers.domain.entity.Account;
 import com.backfam.transfers.domain.entity.Transaction;
 import com.backfam.transfers.domain.event.TransactionCreateEvent;
 import com.backfam.transfers.domain.exception.AccountException;
+import com.backfam.transfers.domain.exception.InsufficientBalanceException;
 import com.backfam.transfers.domain.exception.TransactionType;
 import com.backfam.transfers.domain.repository.AccountRepository;
 import com.backfam.transfers.domain.repository.TransactionRepository;
@@ -27,21 +28,20 @@ public class TransactionService {
     private final EventPublisher eventPublisher;
 
     @Transactional
-    public TransactionResponseDTO performTransaction(TransactionRequestDTO request) throws Exception {
-        try {
+    public TransactionResponseDTO performTransaction(TransactionRequestDTO request) {
 
             Account account = accountRepository.findByAccountNum(request.getAccountNum())
                     .orElseThrow(() -> new AccountException(request.getAccountNum()));
 
             String type = request.getType().toUpperCase();
 
-            if (!type.equals(TransactionType.RETIRO.getMessage()) && !type.equals(TransactionType.DEPOSITO.getMessage())){
+            if (!type.equals(TransactionType.RETIRO.getMessage()) && !type.equals(TransactionType.DEPOSITO.getMessage())) {
                 throw new IllegalArgumentException(TransactionType.TRANSACTION_NO_VALID.getMessage());
             }
 
             if (type.equals(TransactionType.RETIRO.getMessage())) {
                 account.cashOut(request.getAmount());
-            } else{
+            } else {
                 account.deposit(request.getAmount());
             }
 
@@ -70,9 +70,6 @@ public class TransactionService {
                     transaction.getType(),
                     transaction.getMovementDate()
             );
-
-        } catch (Exception e) {
-            throw new Exception(Messages.PERFORM_TRANSACTION_ERROR.getMessage());
-        }
+            
     }
 }

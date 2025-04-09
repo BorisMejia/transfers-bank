@@ -68,7 +68,7 @@ public class AccountController {
 
             return ResponseEntity
                     .status(HttpStatus.CREATED)
-                    .body(response);
+                    .body("Cuenta creada correctamente");
         }catch (Exception e){
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
