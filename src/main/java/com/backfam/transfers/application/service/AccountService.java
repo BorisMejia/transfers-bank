@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,6 +20,14 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
     private final EventPublisher eventPublisher;
+
+    private String generateUniqueAccountNumber() {
+        String accountNum;
+        do {
+            accountNum = String.format("%010d", new Random().nextInt(1_000_000_000));
+        } while (accountRepository.findByAccountNum(accountNum).isPresent());
+        return accountNum;
+    }
 
     public AccountService(AccountRepository accountRepository, EventPublisher eventPublisher){
         this.accountRepository = accountRepository;
@@ -37,7 +46,17 @@ public class AccountService {
     @Transactional
     public AccountDTO createAccount(AccountDTO accountDTO) throws Exception{
         try {
-            Account newAccount = accountRepository.save(accountDTO.toEntity());
+            String generatedAccountNum = generateUniqueAccountNumber();
+
+            Account newAccount = new Account(
+                    null,
+                    generatedAccountNum,
+                    accountDTO.getName(),
+                    accountDTO.getBalance()
+            );
+
+            newAccount = accountRepository.save(newAccount);
+
             AccountCreateEvent event = new AccountCreateEvent(
                     newAccount.getId(),
                     newAccount.getAccountNum(),
@@ -45,11 +64,16 @@ public class AccountService {
                     newAccount.getBalance()
             );
             eventPublisher.publishEvent(event);
-            return new AccountDTO(newAccount.getId(), newAccount.getAccountNum(), newAccount.getName(), newAccount.getBalance());
+
+            return new AccountDTO(
+                    newAccount.getId(),
+                    newAccount.getAccountNum(),
+                    newAccount.getName(),
+                    newAccount.getBalance()
+            );
         }catch (Exception e){
             throw new Exception(Messages.ERROR_CREATE_ACCOUNT.getMessage());
         }
-
     }
     public List<AccountDTO> getAllAccount() throws Exception{
         List<Account> accounts = accountRepository.findAll();

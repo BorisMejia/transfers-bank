@@ -67,7 +67,7 @@ public class AccountController {
             var response = new AccountResponseDTO(accountDTO.getId(), accountDTO.getAccountNum(), accountDTO.getName(), accountDTO.getBalance());
 
             return ResponseEntity
-                    .status(HttpStatus.OK)
+                    .status(HttpStatus.CREATED)
                     .body(response);
         }catch (Exception e){
             return ResponseEntity

@@ -7,6 +7,7 @@ import com.backfam.transfers.domain.entity.Account;
 import com.backfam.transfers.domain.entity.Transaction;
 import com.backfam.transfers.domain.event.TransactionCreateEvent;
 import com.backfam.transfers.domain.exception.AccountException;
+import com.backfam.transfers.domain.exception.TransactionType;
 import com.backfam.transfers.domain.repository.AccountRepository;
 import com.backfam.transfers.domain.repository.TransactionRepository;
 import jakarta.transaction.Transactional;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.backfam.transfers.application.dto.response.TransactionResponseDTO;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Service
@@ -27,19 +29,29 @@ public class TransactionService {
     @Transactional
     public TransactionResponseDTO performTransaction(TransactionRequestDTO request) throws Exception {
         try {
+
             Account account = accountRepository.findByAccountNum(request.getAccountNum())
                     .orElseThrow(() -> new AccountException(request.getAccountNum()));
-            if (request.getType().equalsIgnoreCase("RETIRO")) {
+
+            String type = request.getType().toUpperCase();
+
+            if (!type.equals(TransactionType.RETIRO.getMessage()) && !type.equals(TransactionType.DEPOSITO.getMessage())){
+                throw new IllegalArgumentException(TransactionType.TRANSACTION_NO_VALID.getMessage());
+            }
+
+            if (type.equals(TransactionType.RETIRO.getMessage())) {
                 account.cashOut(request.getAmount());
-            } else if (request.getType().equalsIgnoreCase("DEPOSITO")) {
+            } else{
                 account.deposit(request.getAmount());
             }
+
             Transaction transaction = Transaction.builder()
                     .account(account)
                     .amount(request.getAmount())
-                    .type(request.getType().toUpperCase())
+                    .type(type)
                     .movementDate(LocalDateTime.now())
                     .build();
+
             transactionRepository.save(transaction);
             accountRepository.save(account);
 
