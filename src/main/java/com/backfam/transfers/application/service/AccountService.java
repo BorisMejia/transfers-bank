@@ -11,6 +11,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AccountService {
@@ -48,6 +50,23 @@ public class AccountService {
             throw new Exception(Messages.ERROR_CREATE_ACCOUNT.getMessage());
         }
 
+    }
+    public List<AccountDTO> getAllAccount() throws Exception{
+        List<Account> accounts = accountRepository.findAll();
+
+        System.out.println("Cantidad de cuentas encontradas: " + accounts.size());
+
+        if (accounts.isEmpty()) {
+            throw new Exception("No hay cuentas registradas");
+        }
+
+        return accounts.stream()
+                .map(account -> new AccountDTO(
+                        account.getId(),
+                        account.getAccountNum(),
+                        account.getName(),
+                        account.getBalance()
+                )).collect(Collectors.toList());
     }
 
     @Transactional

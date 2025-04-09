@@ -9,6 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/accounts")
 public class AccountController {
@@ -32,6 +36,28 @@ public class AccountController {
                     .status(HttpStatus.BAD_REQUEST)
                     .body(Messages.ACCOUNT_ERROR.getMessage());
         }
+    }
+    @GetMapping("/all")
+    public ResponseEntity<List<AccountResponseDTO>> getAllAccounts() throws Exception{
+        try {
+            var accounts = accountService.getAllAccount();
+            List<AccountResponseDTO> response = accounts.stream()
+                    .map(account -> new AccountResponseDTO(
+                            account.getId(),
+                            account.getAccountNum(),
+                            account.getName(),
+                            account.getBalance()
+                    )).collect(Collectors.toList());
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(response);
+        }catch (Exception e){
+            System.out.println("Error al obtener cuentas" + e.getMessage());
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Collections.emptyList());
+        }
+
     }
 
     @PostMapping
