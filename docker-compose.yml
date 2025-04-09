@@ -1,8 +1,12 @@
 services:
 
   app:
-    build: .
+    image: eclipse-temurin:17-jdk-alpine
     container_name: app-transfers
+    volumes:
+      - ./target/transfers-1.0.0-SNAPSHOT.jar:/app/app.jar
+    working_dir: /app
+    command: ["java", "-jar", "app.jar"]
     ports:
       - "8080:8080"
     depends_on:
@@ -11,7 +15,7 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:sqlserver://db:1433;databaseName=bankFam;encrypt=true;trustServerCertificate=true
       SPRING_DATASOURCE_USERNAME: sa
-      SPRING_DATASOURCE_PASSWORD: transferBank
+      SPRING_DATASOURCE_PASSWORD: transferBank2019
       SPRING_RABBITMQ_HOST: rabbitmq
     networks:
       - app-network
@@ -22,7 +26,7 @@ services:
     hostname: sql1
     environment:
       ACCEPT_EULA: "Y"
-      MSSQL_SA_PASSWORD: transferBank
+      MSSQL_SA_PASSWORD: transferBank2019
     ports:
       - "1433:1433"
     networks:
