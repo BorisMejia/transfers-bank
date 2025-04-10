@@ -7,7 +7,7 @@ public enum TransactionType {
 
     RETIRO("RETIRO"),
     DEPOSITO("DEPOSITO"),
-    TRANSACTION_NO_VALID("Transaction no valida");
+    TRANSACTION_NO_VALID("Transaction no valid");
 
     private final String message;
 
