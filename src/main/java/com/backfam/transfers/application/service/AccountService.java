@@ -78,7 +78,6 @@ public class AccountService {
     public List<AccountDTO> getAllAccount() throws Exception{
         List<Account> accounts = accountRepository.findAll();
 
-        System.out.println("Cantidad de cuentas encontradas: " + accounts.size());
 
         if (accounts.isEmpty()) {
             throw new Exception("No hay cuentas registradas");
