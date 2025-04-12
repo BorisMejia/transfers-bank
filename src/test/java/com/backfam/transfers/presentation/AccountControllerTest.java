@@ -1,2 +1,6 @@
-package com.backfam.transfers.presentation;public class AccountControllerTest {
-}
+package com.backfam.transfers.presentation;
+
+class AccountControllerTest {
+    ;
+    }
+
