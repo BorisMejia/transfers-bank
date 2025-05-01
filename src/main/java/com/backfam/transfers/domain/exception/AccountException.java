@@ -1,6 +1,5 @@
 package com.backfam.transfers.domain.exception;
 
-import java.math.BigDecimal;
 
 public class AccountException extends RuntimeException{
 

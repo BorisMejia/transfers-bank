@@ -3,15 +3,14 @@ package com.backfam.transfers.domain.entity;
 import com.backfam.transfers.domain.exception.Messages;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 @Entity
 @Table(name = "transfers")
 public class Transfer {

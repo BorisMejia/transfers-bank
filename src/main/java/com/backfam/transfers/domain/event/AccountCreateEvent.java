@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Data
-@AllArgsConstructor
 public class AccountCreateEvent implements Serializable {
 
     private Integer id;

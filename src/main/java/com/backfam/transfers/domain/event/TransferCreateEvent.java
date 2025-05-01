@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
-@AllArgsConstructor
 public class TransferCreateEvent implements Serializable {
 
     private String fromAccount;
