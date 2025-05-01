@@ -3,7 +3,6 @@ package com.backfam.transfers.presentation.controller;
 import com.backfam.transfers.application.dto.AccountDTO;
 import com.backfam.transfers.application.service.AccountService;
 import com.backfam.transfers.presentation.controller.exception.Messages;
-import com.backfam.transfers.presentation.response.AccountResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -30,7 +29,7 @@ public class AccountController {
             var account = accountService.getBalance(accountNum);
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(new AccountResponseDTO(account.getId(), account.getAccountNum(), account.getName(), account.getBalance()));
+                    .body(new AccountDTO(account.getName(), account.getBalance()));
         } catch (Exception e) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
@@ -38,13 +37,11 @@ public class AccountController {
         }
     }
     @GetMapping("/all")
-    public ResponseEntity<List<AccountResponseDTO>> getAllAccounts() throws Exception{
+    public ResponseEntity<List<AccountDTO>> getAllAccounts() throws Exception{
         try {
             var accounts = accountService.getAllAccount();
-            List<AccountResponseDTO> response = accounts.stream()
-                    .map(account -> new AccountResponseDTO(
-                            account.getId(),
-                            account.getAccountNum(),
+            List<AccountDTO> response = accounts.stream()
+                    .map(account -> new AccountDTO(
                             account.getName(),
                             account.getBalance()
                     )).collect(Collectors.toList());
@@ -64,7 +61,7 @@ public class AccountController {
     public ResponseEntity<?> createAccount(@RequestBody @Validated AccountDTO request){
         try {
             var accountDTO = accountService.createAccount(request);
-            var response = new AccountResponseDTO(accountDTO.getId(), accountDTO.getAccountNum(), accountDTO.getName(), accountDTO.getBalance());
+            var response = new AccountDTO(accountDTO.getName(), accountDTO.getBalance());
 
             return ResponseEntity
                     .status(HttpStatus.CREATED)

@@ -38,7 +38,7 @@ public class AccountService {
         try {
             Account account = accountRepository.findByAccountNum(accountNum)
                     .orElseThrow(()-> new AccountException(accountNum));
-            return new AccountDTO(account.getId(),account.getAccountNum(),account.getName(),account.getBalance());
+            return new AccountDTO(account.getName(),account.getBalance());
         }catch (Exception e){
             throw new Exception(Messages.ERROR_GET_ACCOUNT.getMessage());
         }
@@ -66,8 +66,6 @@ public class AccountService {
             eventPublisher.publishEvent(event);
 
             return new AccountDTO(
-                    newAccount.getId(),
-                    newAccount.getAccountNum(),
                     newAccount.getName(),
                     newAccount.getBalance()
             );
@@ -85,8 +83,6 @@ public class AccountService {
 
         return accounts.stream()
                 .map(account -> new AccountDTO(
-                        account.getId(),
-                        account.getAccountNum(),
                         account.getName(),
                         account.getBalance()
                 )).collect(Collectors.toList());

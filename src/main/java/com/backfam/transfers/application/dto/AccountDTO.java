@@ -12,12 +12,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class AccountDTO {
 
-    private Integer id;
-    private String accountNum;
+
     private String name;
     private BigDecimal balance;
 
-    public Account toEntity(){
-        return new Account(id, accountNum, name, balance);
-    }
 }
