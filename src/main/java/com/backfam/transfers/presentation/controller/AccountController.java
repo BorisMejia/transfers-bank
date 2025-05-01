@@ -1,6 +1,7 @@
 package com.backfam.transfers.presentation.controller;
 
 import com.backfam.transfers.application.dto.AccountDTO;
+import com.backfam.transfers.application.dto.response.AccountResponseDTO;
 import com.backfam.transfers.application.service.AccountService;
 import com.backfam.transfers.presentation.controller.exception.Messages;
 import org.springframework.http.HttpStatus;
@@ -37,11 +38,12 @@ public class AccountController {
         }
     }
     @GetMapping("/all")
-    public ResponseEntity<List<AccountDTO>> getAllAccounts() throws Exception{
+    public ResponseEntity<List<AccountResponseDTO>> getAllAccounts() throws Exception{
         try {
             var accounts = accountService.getAllAccount();
-            List<AccountDTO> response = accounts.stream()
-                    .map(account -> new AccountDTO(
+            List<AccountResponseDTO> response = accounts.stream()
+                    .map(account -> new AccountResponseDTO(
+                            account.getAccountNum(),
                             account.getName(),
                             account.getBalance()
                     )).collect(Collectors.toList());

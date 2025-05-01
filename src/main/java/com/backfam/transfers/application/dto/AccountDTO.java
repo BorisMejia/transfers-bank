@@ -12,7 +12,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class AccountDTO {
 
-
     private String name;
     private BigDecimal balance;
 

@@ -1,6 +1,7 @@
 package com.backfam.transfers.application.service;
 
 import com.backfam.transfers.application.dto.AccountDTO;
+import com.backfam.transfers.application.dto.response.AccountResponseDTO;
 import com.backfam.transfers.application.event.EventPublisher;
 import com.backfam.transfers.domain.entity.Account;
 import com.backfam.transfers.domain.event.AccountCreateEvent;
@@ -73,7 +74,7 @@ public class AccountService {
             throw new Exception(Messages.ERROR_CREATE_ACCOUNT.getMessage());
         }
     }
-    public List<AccountDTO> getAllAccount() throws Exception{
+    public List<AccountResponseDTO> getAllAccount() throws Exception{
         List<Account> accounts = accountRepository.findAll();
 
 
@@ -82,7 +83,8 @@ public class AccountService {
         }
 
         return accounts.stream()
-                .map(account -> new AccountDTO(
+                .map(account -> new AccountResponseDTO(
+                        account.getAccountNum(),
                         account.getName(),
                         account.getBalance()
                 )).collect(Collectors.toList());
