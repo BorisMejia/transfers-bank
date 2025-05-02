@@ -51,7 +51,6 @@ public class AccountController {
                     .status(HttpStatus.OK)
                     .body(response);
         }catch (Exception e){
-            System.out.println("Error al obtener cuentas" + e.getMessage());
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body(Collections.emptyList());
