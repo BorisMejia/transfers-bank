@@ -2,11 +2,11 @@ package com.backfam.transfers.presentation;
 
 import com.backfam.transfers.application.dto.response.TransactionResponseDTO;
 import com.backfam.transfers.application.dto.request.TransactionRequestDTO;
-import com.backfam.transfers.application.dto.response.TransactionResponseDTO;
 import com.backfam.transfers.application.service.TransactionService;
 import com.backfam.transfers.presentation.controller.TransactionController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.math.BigDecimal;
@@ -55,7 +55,7 @@ class TransactionControllerTest {
         Mockito.when(transactionService.performTransaction(any())).thenReturn(responseDTO);
 
         // Act + Assert
-        mockMvc.perform(post("/api/transaction")
+        mockMvc.perform(post("/transaction")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isOk())

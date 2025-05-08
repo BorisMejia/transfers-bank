@@ -37,8 +37,16 @@ cd transfers-bank
 
 ### 2. Compila el proyecto para generar el .jar
 
-mvn clean install
+mvn clean package -DskipTests
 
-### 3. 
+### 3. levantar los contenedores
 
+docker-compose up --build
 
+### 4. levantar los contenedores
+
+Crear la base de datos con nombre
+
+### 5. Probar los endpoint
+
+http://localhost:8080/api/swagger-ui.html

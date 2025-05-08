@@ -33,7 +33,7 @@ public class AccountServiceTest {
 
     @Test
     void shouldCreateAccountSuccessfully() throws Exception {
-        AccountDTO input = new AccountDTO(null, null, "Carlos", new BigDecimal("1500"));
+        AccountDTO input = new AccountDTO( "Carlos", new BigDecimal("1500"));
         Account savedAccount = new Account(1, "1234567890", "Carlos", new BigDecimal("1500"));
 
         // Simular que el número de cuenta generado no existe aún
@@ -44,7 +44,7 @@ public class AccountServiceTest {
 
         assertNotNull(result);
         assertEquals("Carlos", result.getName());
-        assertEquals("1234567890", result.getAccountNum());
+        assertEquals("1234567890", savedAccount.getAccountNum());
         assertEquals(new BigDecimal("1500"), result.getBalance());
         verify(eventPublisher).publishEvent(Mockito.any(AccountCreateEvent.class));
     }
