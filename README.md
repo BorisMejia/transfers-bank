@@ -50,4 +50,5 @@ Se debera crear la base de datos con nombre bankFam y se debera ejecutar el cont
 
 ### 5. Probar los endpoint
 
+Esta url sera por donde se realicen las pruebas de los diferentes endpoint
 http://localhost:8080/api/swagger-ui.html
