@@ -45,7 +45,8 @@ docker-compose up --build
 
 ### 4. levantar los contenedores
 
-Crear la base de datos con nombre
+Se ejecutan solo dos contenedores la base de datos y rabbitMQ.
+Se debera crear la base de datos con nombre bankFam y se debera ejecutar el contenedor app-transfers
 
 ### 5. Probar los endpoint
 
