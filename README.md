@@ -43,7 +43,7 @@ mvn clean package -DskipTests
 
 docker-compose up --build
 
-### 4. levantar los contenedores
+### 4. Crear la base de datos bankFam
 
 Se ejecutan solo dos contenedores la base de datos y rabbitMQ.
 Se debera crear la base de datos con nombre bankFam y se debera ejecutar el contenedor app-transfers
