@@ -15,14 +15,13 @@ Antes de ejecutar este proyecto, asegúrate de tener instalado lo siguiente en t
 
 ## 🚀 Tecnologías utilizadas
 >[!NOTE]
->
-- Java 17
-- Spring Boot
-- Maven
-- RabbitMQ
-- SQL Server
-- Docker & Docker Compose
-- Swagger UI
+>- Java 17
+>- Spring Boot
+> - Maven
+>- RabbitMQ
+>- SQL Server
+>- Docker & Docker Compose
+>- Swagger UI
 
 ---
 
