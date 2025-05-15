@@ -14,7 +14,7 @@ Antes de ejecutar este proyecto, asegúrate de tener instalado lo siguiente en t
   Asegúrate de que Docker esté corriendo antes de continuar. Puedes verificarlo ejecutando:
 
 ## 🚀 Tecnologías utilizadas
-
+>[!NOTE]
 - Java 17
 - Spring Boot
 - Maven
