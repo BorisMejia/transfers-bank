@@ -4,7 +4,7 @@ Este proyecto es una API para gestionar transferencias bancarias entre cuentas, 
 
 ---
 # ✅ Requisitos Previos
-
+>[!IMPORTANT]
 Antes de ejecutar este proyecto, asegúrate de tener instalado lo siguiente en tu máquina:
 
 - **Docker Desktop**: Necesario para levantar los contenedores de la aplicación, base de datos y RabbitMQ. Puedes descargarlo desde aquí:
