@@ -8,13 +8,14 @@ Este proyecto es una API para gestionar transferencias bancarias entre cuentas, 
 Antes de ejecutar este proyecto, asegúrate de tener instalado lo siguiente en tu máquina:
 
 - **Docker Desktop**: Necesario para levantar los contenedores de la aplicación, base de datos y RabbitMQ. Puedes descargarlo desde aquí:
-
-  👉 [https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/)
+>[!TIP]
+>👉 [https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/)
 
   Asegúrate de que Docker esté corriendo antes de continuar. Puedes verificarlo ejecutando:
 
 ## 🚀 Tecnologías utilizadas
 >[!NOTE]
+>
 - Java 17
 - Spring Boot
 - Maven
