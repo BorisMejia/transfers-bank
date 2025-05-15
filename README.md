@@ -11,6 +11,7 @@ Antes de ejecutar este proyecto, asegúrate de tener instalado lo siguiente en t
 >[!TIP]
 >👉 [https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/)
 
+>[!IMPORTANT]
   Asegúrate de que Docker esté corriendo antes de continuar. Puedes verificarlo ejecutando:
 
 ## 🚀 Tecnologías utilizadas
