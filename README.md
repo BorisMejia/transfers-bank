@@ -37,7 +37,7 @@ git clone https://github.com/BorisMejia/transfers-bank.git
 cd transfers-bank
 
 ### 2. Compila el proyecto para generar el .jar
-
+>[!tip]
 mvn clean package -DskipTests
 
 ### 3. levantar los contenedores
